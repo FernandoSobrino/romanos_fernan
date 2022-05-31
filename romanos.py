@@ -26,10 +26,31 @@ def convertir_en_romano(numero):
     return f"{r_millares}{r_centenas}{r_decenas}{r_unidades}"
 
 
+def convertir_a_numero(romano):
+    digitos_romanos = {"I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000}
+    """
+    MCXXIII : 1123
+        - El dato se lee de izquierda a derecha
+        - Convertir cada "letra" en su "valor"
+        - Sumo los valores si a la izquierda hay un dígito mayor que a la derecha
+        - Resto si el valor de la izquierda es menor que el de la derecha
+        
+    """
+    resultado = 0
+    anterior = 0
+    for letra in romano:
+        actual = digitos_romanos[letra]
+        
+        if anterior >= actual:
+            resultado = resultado + actual
+        else:
+            resultado = resultado - anterior
+            resultado = resultado + (actual - anterior)
+        
+        anterior = actual
+    return resultado
 
-
-
-#print(convertir_en_romano("3a3"))
-#print(convertir_en_romano(-3))
-print(convertir_en_romano(444))
-#convertir_en_romano("a")
+print(convertir_a_numero("IV"))
+print(convertir_a_numero("MCXXIII"))
+print(convertir_a_numero("MCXXXIV"))
+print(convertir_a_numero("IC"))
