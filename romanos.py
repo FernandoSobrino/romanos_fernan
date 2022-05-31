@@ -1,43 +1,35 @@
 def convertir_en_romano(numero):
-    """
-    Restricciones:
-        - Es un número natural
-        - El número está entre 0 y 3999
-            - no es negativo
-            - no es mayor que 3999
-    El resultado es una cadena que contiene (I,V,X,L,C,D,M)
-    Ideas para comprobar un entero:
-        - convertir a int y si no se puede, error
-        - isinstance()
-        - type()
-    """
+    millares = ["","M","MM","MMM"]
+    centenas = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"]
+    decenas = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"]
+    unidades = ["","I","II","III","IV","V","VI","VII","VIII","IX"]
+    
     if not isinstance(numero,int):
         return "No has introducido un número" 
     if numero < 1 or numero > 3999:
         return "El número introducido no es válido (debe ser positivo y menor de 4000)"
-
-    simbolos = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-
-
-
-    #Descomponer en unidades, decenas, centenas y unidades de millar el número
-    #que nos pida
-    #opción 1: división entera + módulo en cascada
-    #opción 2: convertir en cadena y en función de la longitud y la posición
-    #tener u,d,c,um
     
     divisores = [1000,100,10,1]
-    
+    factores = []
     
     for divisor in divisores:
         cociente = numero // divisor
         resto = numero % divisor
-        print(divisor,cociente)
+        factores.append(cociente)
         numero = resto
-        
-    
+
+    r_millares = millares[factores[0]]
+    r_centenas = centenas[factores[1]]
+    r_decenas = decenas[factores[2]]
+    r_unidades = unidades[factores[3]]
+
+    return f"{r_millares}{r_centenas}{r_decenas}{r_unidades}"
+
+
+
+
 
 #print(convertir_en_romano("3a3"))
 #print(convertir_en_romano(-3))
-print(convertir_en_romano(1123))
+print(convertir_en_romano(444))
 #convertir_en_romano("a")
