@@ -11,28 +11,33 @@ def convertir_en_romano(numero):
         - isinstance()
         - type()
     """
+    if not isinstance(numero,int):
+        return "No has introducido un número" 
+    if numero < 1 or numero > 3999:
+        return "El número introducido no es válido (debe ser positivo y menor de 4000)"
 
-    """
-    try:
-        numero_validado = int(numero)
-    except ValueError:
-        raise ValueError(f"{numero} no es un número válido")
-        
-
-    if numero_validado > 0 and numero_validado > 4000:
-       return "OK"
-    return "El número introducido no es válido"
-    """
-    if not isinstance(numero,int) or numero < 1 or numero > 3999:
-        return "El número introducido no es válido (debe ser positivo y entero)"
-    
     simbolos = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 
-    #Descomponer en unidades, decenas, centenas y unidades de millar el número que
+
+
+    #Descomponer en unidades, decenas, centenas y unidades de millar el número
     #que nos pida
     #opción 1: división entera + módulo en cascada
     #opción 2: convertir en cadena y en función de la longitud y la posición
     #tener u,d,c,um
     
+    divisores = [1000,100,10,1]
     
-print(convertir_en_romano("3a3"))
+    
+    for divisor in divisores:
+        cociente = numero // divisor
+        resto = numero % divisor
+        print(divisor,cociente)
+        numero = resto
+        
+    
+
+#print(convertir_en_romano("3a3"))
+#print(convertir_en_romano(-3))
+print(convertir_en_romano(1123))
+#convertir_en_romano("a")
