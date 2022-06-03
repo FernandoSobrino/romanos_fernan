@@ -4,6 +4,8 @@ def convertir_en_romano(numero):
     decenas = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"]
     unidades = ["","I","II","III","IV","V","VI","VII","VIII","IX"]
     
+    conversores = [millares, centenas, decenas, unidades]
+
     if not isinstance(numero,int):
         return "No has introducido un número" 
     if numero < 1 or numero > 3999:
@@ -18,13 +20,11 @@ def convertir_en_romano(numero):
         factores.append(cociente)
         numero = resto
 
-    r_millares = millares[factores[0]]
-    r_centenas = centenas[factores[1]]
-    r_decenas = decenas[factores[2]]
-    r_unidades = unidades[factores[3]]
+    resultado = ""
+    for pos, factor in enumerate(factores):
+        resultado = resultado + conversores[pos][factor]
 
-    return f"{r_millares}{r_centenas}{r_decenas}{r_unidades}"
-
+    return resultado
 
 def convertir_a_numero(romano):
     digitos_romanos = {"I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000}
@@ -36,21 +36,29 @@ def convertir_a_numero(romano):
         - Resto si el valor de la izquierda es menor que el de la derecha
         
     """
+    
     resultado = 0
     anterior = 0
     for letra in romano:
         actual = digitos_romanos[letra]
-        
+
         if anterior >= actual:
             resultado = resultado + actual
         else:
+            if anterior in (5, 50, 500):
+                raise ValueError("No se puede restar un número múltiplo de 5")
+            if 0 < anterior*10 < actual:
+                raise ValueError("No se puede restar más de un orden de magnitud")
             resultado = resultado - anterior
             resultado = resultado + (actual - anterior)
         
         anterior = actual
     return resultado
 
-print(convertir_a_numero("IV"))
-print(convertir_a_numero("MCXXIII"))
-print(convertir_a_numero("MCXXXIV"))
-print(convertir_a_numero("IC"))
+
+if __name__ == '__main__':
+    print(convertir_a_numero("IV"))
+    print(convertir_a_numero("MCXXIII"))
+    print(convertir_a_numero("MCXXXIV"))
+    #print(convertir_a_numero("IC"))
+    print(convertir_a_numero("VX"))
