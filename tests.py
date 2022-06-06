@@ -29,7 +29,21 @@ class RomanosTest(unittest.TestCase):
         self.assertRaises(ValueError,convertir_a_numero,"CCM")
         self.assertRaises(ValueError,convertir_a_numero,"XXC")
         self.assertRaises(ValueError,convertir_a_numero,"MMCCM")
-        
+
+    def test_no_mas_de_tres_simbolos_repetidos(self):
+        self.assertEqual(convertir_a_numero('MMM'),3000)
+        self.assertRaises(ValueError,convertir_a_numero,"MMMM")
+        self.assertRaises(ValueError,convertir_a_numero,"IIII")
+        self.assertRaises(ValueError,convertir_a_numero,"CCCC")
+        self.assertRaises(ValueError,convertir_a_numero,"XXXX")
+
+    def no_repetir_multiplos_de_cinco(self):
+        self.assertRaises(ValueError,convertir_a_numero,"VV")
+        self.assertRaises(ValueError,convertir_a_numero,"LL")
+        self.assertRaises(ValueError,convertir_a_numero,"MLL")
+        self.assertRaises(ValueError,convertir_a_numero,"CLL")
+        self.assertRaises(ValueError,convertir_a_numero,"DD")
+        self.assertRaises(ValueError,convertir_a_numero,"MDD")
         
         #Lo que viene a continuación dará ok si una llamada se cumple, no todas
         """

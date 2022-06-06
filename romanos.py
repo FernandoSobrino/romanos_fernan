@@ -40,6 +40,7 @@ def convertir_a_numero(romano):
     resultado = 0
     anterior = 0
     cuenta_resta = 0
+    cuenta_repetidos = 0
 
     for letra in romano:
         actual = digitos_romanos[letra]
@@ -48,6 +49,9 @@ def convertir_a_numero(romano):
             resultado = resultado + actual
             cuenta_resta = 0
         else:
+            if cuenta_repetidos == 1:
+                raise ValueError("No se puede restar símbolos repetidos")
+
             if cuenta_resta == 1:
                 raise ValueError("No se puede restar más de un símbolo")
             
@@ -59,7 +63,15 @@ def convertir_a_numero(romano):
             
             resultado = resultado - anterior
             resultado = resultado + (actual - anterior)
-            cuenta_resta = cuenta_resta + 1
+            if anterior > 0:
+                cuenta_resta = cuenta_resta + 1
+
+        if anterior == actual:
+            cuenta_repetidos = cuenta_repetidos + 1
+            if cuenta_repetidos > 2:
+                raise ValueError("No puedes tener más de tres símbolos iguales")
+        else:
+            cuenta_repetidos = 0
         
         anterior = actual
     return resultado
@@ -73,5 +85,7 @@ if __name__ == '__main__':
     print(convertir_a_numero("IC"))
     print(convertir_a_numero("VX"))
     """
+    print(convertir_a_numero("IIX"))
+    print(convertir_a_numero('MMMM'))
 
     
