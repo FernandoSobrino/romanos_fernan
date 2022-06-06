@@ -39,26 +39,39 @@ def convertir_a_numero(romano):
     
     resultado = 0
     anterior = 0
+    cuenta_resta = 0
+
     for letra in romano:
         actual = digitos_romanos[letra]
 
         if anterior >= actual:
             resultado = resultado + actual
+            cuenta_resta = 0
         else:
+            if cuenta_resta == 1:
+                raise ValueError("No se puede restar más de un símbolo")
+            
             if anterior in (5, 50, 500):
                 raise ValueError("No se puede restar un número múltiplo de 5")
+
             if 0 < anterior*10 < actual:
                 raise ValueError("No se puede restar más de un orden de magnitud")
+            
             resultado = resultado - anterior
             resultado = resultado + (actual - anterior)
+            cuenta_resta = cuenta_resta + 1
         
         anterior = actual
     return resultado
 
 
 if __name__ == '__main__':
+    """
     print(convertir_a_numero("IV"))
     print(convertir_a_numero("MCXXIII"))
     print(convertir_a_numero("MCXXXIV"))
-    #print(convertir_a_numero("IC"))
+    print(convertir_a_numero("IC"))
     print(convertir_a_numero("VX"))
+    """
+
+    

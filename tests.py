@@ -22,6 +22,23 @@ class RomanosTest(unittest.TestCase):
         self.assertRaises(ValueError, convertir_a_numero, "LC")
         self.assertRaises(ValueError, convertir_a_numero, "DM")
 
+    def test_no_restas_consecutivas(self):
+        self.assertRaises(ValueError,convertir_a_numero,"MIXC")
+
+    def no_repetir_simbolos_resta(self):
+        self.assertRaises(ValueError,convertir_a_numero,"CCM")
+        self.assertRaises(ValueError,convertir_a_numero,"XXC")
+        self.assertRaises(ValueError,convertir_a_numero,"MMCCM")
+        
+        
+        #Lo que viene a continuación dará ok si una llamada se cumple, no todas
+        """
+        with self.assertRaises(ValueError):
+            convertir_a_numero("VX")
+            convertir_a_numero("VX")
+            convertir_a_numero("VX")
+        """
+
 
 if __name__ == '__main__':
     unittest.main()
