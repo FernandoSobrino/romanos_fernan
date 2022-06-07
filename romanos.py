@@ -1,91 +1,33 @@
-def convertir_en_romano(numero):
-    millares = ["","M","MM","MMM"]
-    centenas = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"]
-    decenas = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"]
-    unidades = ["","I","II","III","IV","V","VI","VII","VIII","IX"]
-    
+class RomanNumber:
+
+    millares = [ "", "M", "MM", "MMM" ]
+    centenas = [ "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ]
+    decenas = [ "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ]
+    unidades = [ "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ]
+
     conversores = [millares, centenas, decenas, unidades]
 
-    if not isinstance(numero,int):
-        return "No has introducido un número" 
-    if numero < 1 or numero > 3999:
-        return "El número introducido no es válido (debe ser positivo y menor de 4000)"
-    
-    divisores = [1000,100,10,1]
-    factores = []
-    
-    for divisor in divisores:
-        cociente = numero // divisor
-        resto = numero % divisor
-        factores.append(cociente)
-        numero = resto
+    def __init__(self, numero):
+        if not isinstance(numero, int):
+            raise ValueError("No has introducido un número")
+        if numero < 1 or numero > 3999:
+            raise ValueError ("El número introducido no es válido (debe ser positivo y menor que 4000)")
+        self.numero = numero
 
-    resultado = ""
-    for pos, factor in enumerate(factores):
-        resultado = resultado + conversores[pos][factor]
+    def int_a_romano(self):
+        divisores = [1000, 100, 10, 1]
+        factores = []
+        numero = self.numero
 
-    return resultado
+        for divisor in divisores:
+            cociente = numero // divisor
+            resto = numero % divisor
+            factores.append(cociente)
+            numero = resto
 
-def convertir_a_numero(romano):
-    digitos_romanos = {"I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000}
-    """
-    MCXXIII : 1123
-        - El dato se lee de izquierda a derecha
-        - Convertir cada "letra" en su "valor"
-        - Sumo los valores si a la izquierda hay un dígito mayor que a la derecha
-        - Resto si el valor de la izquierda es menor que el de la derecha
-        
-    """
-    
-    resultado = 0
-    anterior = 0
-    cuenta_resta = 0
-    cuenta_repetidos = 0
+        resultado = ""
 
-    for letra in romano:
-        actual = digitos_romanos[letra]
+        for pos, factor in enumerate(factores):
+            resultado = resultado + self.conversores[pos][factor]
 
-        if anterior >= actual:
-            resultado = resultado + actual
-            cuenta_resta = 0
-        else:
-            if cuenta_repetidos == 1:
-                raise ValueError("No se puede restar símbolos repetidos")
-
-            if cuenta_resta == 1:
-                raise ValueError("No se puede restar más de un símbolo")
-            
-            if anterior in (5, 50, 500):
-                raise ValueError("No se puede restar un número múltiplo de 5")
-
-            if 0 < anterior*10 < actual:
-                raise ValueError("No se puede restar más de un orden de magnitud")
-            
-            resultado = resultado - anterior
-            resultado = resultado + (actual - anterior)
-            if anterior > 0:
-                cuenta_resta = cuenta_resta + 1
-
-        if anterior == actual:
-            cuenta_repetidos = cuenta_repetidos + 1
-            if cuenta_repetidos > 2:
-                raise ValueError("No puedes tener más de tres símbolos iguales")
-        else:
-            cuenta_repetidos = 0
-        
-        anterior = actual
-    return resultado
-
-
-if __name__ == '__main__':
-    """
-    print(convertir_a_numero("IV"))
-    print(convertir_a_numero("MCXXIII"))
-    print(convertir_a_numero("MCXXXIV"))
-    print(convertir_a_numero("IC"))
-    print(convertir_a_numero("VX"))
-    """
-    print(convertir_a_numero("IIX"))
-    print(convertir_a_numero('MMMM'))
-
-    
+        return resultado
