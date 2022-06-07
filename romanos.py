@@ -35,11 +35,15 @@ class RomanNumber:
 
     def __add__(self,sumando):
         if isinstance(sumando,RomanNumber):
-            return self.valor + sumando.valor
+            try:
+                resultado = self.valor + sumando.valor
+                return RomanNumber(resultado)
+            except ValueError:
+                raise ValueError(f"El resultado ({resultado}) está fuera de rango (entre 1 y 3999)")
         if isinstance(sumando,int):
-            return self.valor + sumando
+            return RomanNumber(self.valor + sumando)
         if isinstance(sumando,str):
-            return self.valor + RomanNumber(sumando).valor
+            return RomanNumber(self.valor + RomanNumber(sumando).valor)
 
     def __radd__(self,sumando):
         return self.__add__(sumando)
