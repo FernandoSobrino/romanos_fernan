@@ -42,6 +42,28 @@ class RomanNumberTest(unittest.TestCase):
 
         self.assertEqual(3+uno,4)
         self.assertEqual("VI"+dos,8)
+
+    def test_resta(self):
+        uno = RomanNumber(1)
+        dos = RomanNumber(2)
+
+        self.assertEqual(dos - uno, 1)
+        self.assertEqual(dos - 1, 1)
+        self.assertEqual(dos - "I",1)
+        self.assertEqual(4 - dos,2)
+        self.assertEqual("IV" - uno, 3)
+
+    def test_multiplicacion(self):
+        dos = RomanNumber(2)
+        tres = RomanNumber(3)
+        self.assertEqual(dos * dos, 4)
+        self.assertEqual(dos * 3, 6)
+        self.assertEqual(dos * 'II',4)
+
+    
+    def test_no_admitir_caracteres_extraños(self):
+         self.assertRaises(ValueError,RomanNumber,"hola")
+
         
 
 if __name__ == "__main__":
