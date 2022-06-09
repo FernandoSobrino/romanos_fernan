@@ -15,6 +15,9 @@ class RomanNumber:
             self.valor = numero
             self.cadena = self.int_a_romano()
         if isinstance(numero,str):
+            for caracter in numero:
+                if caracter not in self.digitos_romanos:
+                    raise ValueError(f"{caracter} no es un número romano")
             self.cadena = numero
             self.valor = self.romano_a_int()
 
@@ -47,6 +50,53 @@ class RomanNumber:
 
     def __radd__(self,sumando):
         return self.__add__(sumando)
+
+    def __sub__(self,restando):
+        if isinstance(restando,RomanNumber):
+            try:
+                resultado = self.valor - restando.valor
+                return RomanNumber(resultado)
+            except ValueError:
+                raise ValueError(f"El resultado {resultado} está fuera de rango (entre 1 y 3999)")
+        if isinstance(restando,int):
+            return RomanNumber(self.valor - restando)
+        if isinstance(restando,str):
+            return RomanNumber(self.valor - RomanNumber(restando).valor)
+    
+    #def __rsub__(self,restando):
+    """
+    Aquí, habría que dar una condición para el caso de que el resultado
+    sea un número negativo. La larga no me gusta.
+    """
+    #return self.__sub__(restando)
+    
+    def __rsub__(self,restando):
+        if isinstance(restando,RomanNumber):
+            try:
+                resultado = restando.valor - self.valor
+                return RomanNumber(resultado)
+            except ValueError:
+                raise ValueError(f"El resultado {resultado} está fuera de rango (entre 1 y 3999)")
+        if isinstance(restando,int):
+            return RomanNumber(restando - self.valor)
+        if isinstance(restando,str):
+            return RomanNumber(RomanNumber(restando).valor - self.valor)
+      
+    def __mul__(self,multiplicador):
+        if isinstance(multiplicador,RomanNumber):
+            try:
+                resultado = self.valor * multiplicador.valor
+                return RomanNumber(resultado)
+            except ValueError:
+                raise ValueError(f"El resultado {resultado} está fuera de rango (entre 1 y 3999)")
+        if isinstance(multiplicador,int):
+            return RomanNumber(self.valor * multiplicador)
+        if isinstance(multiplicador,str):
+            return RomanNumber(self.valor * RomanNumber(multiplicador).valor)
+    
+
+
+    
 
     def validar_numero(self):
         """
@@ -128,3 +178,4 @@ class RomanNumber:
             
             anterior = actual
         return resultado
+
